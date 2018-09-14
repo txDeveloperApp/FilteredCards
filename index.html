@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Brandname</title>
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <!-- uncomment this line and add your personal icon for your project -->
+  <!-- <link rel="icon" type="image/x-icon" href="assets/favicon.ico"> -->
+
+  <!-- add to homescreen for ios -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white">
+
+  <link href="main.css" rel="stylesheet">
+  <script type="text/javascript" src="./js/angular.min.js"></script>
+  <script type="text/javascript" src="index.js"></script>
+
+</head>
+
+<body ng-app="ngShop">
+
+  <header>
+    <a href="#main-menu" class="menu-toggle" role="button" id="main-menu-toggle" aria-expanded="false" aria-controls="main-menu"
+      aria-label="Open main menu">
+      <span class="sr-only">Open main menu</span>
+      <span class="fa fa-bars" aria-hidden="true"></span>
+    </a>
+
+    <h1 class="logo">Brandname</h1>
+
+    <nav id="main-menu" class="main-menu" role="navigation" aria-expanded="false" aria-label="Main menu">
+      <a href="#main-menu-toggle" class="menu-close" role="button" id="main-menu-close" aria-expanded="false"
+        aria-controls="main-menu" aria-label="Close main menu">
+        <span class="sr-only">Close main menu</span>
+        <span class="fa fa-close" aria-hidden="true"></span>
+      </a>
+      <ul ng-controller="ngMenu">
+        <li ng-repeat="point in menu">
+          <a href="{{point.page}}">
+            {{point.title}}
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <a href="#main-menu-toggle" class="backdrop" tabindex="-1" aria-hidden="true" hidden></a>
+  </header>
+
+  <main ng-controller="ngFilter">
+
+    <article class="filterArticle" ng-controller="ngFilter">
+      <table>
+        <tr>
+          <td>
+            <label>Filter:</label>
+          </td>
+          <td class="filtersCell">
+            <div class="filterBtns" ng-repeat="cat in categories" style="background-color: {{cat.color}}">
+              <input id="{{cat.name}}" class="inputCat" type="checkbox" name="{{cat.name}}" value="{{cat.name}}" ng-model="cat.checked">
+              {{cat.name}}
+            </div>
+          </td>
+        </tr>
+      </table>
+    </article>
+
+    <article class="itemsArticle" ng-controller="ngItems">
+      <div class="card" ng-repeat="item in items | catFilter" hidden="{{item}}">
+        <div class="card-header"></div>
+        <div class="card-content">
+          <div class="card-content-title">
+            <label class="itemName">{{item.name}}</label>
+            <div ng-repeat="cat in categories">
+              <label ng-if="cat.name == item.category" class="itemCat" style="background-color: {{cat.color}}">{{item.category}}</label>
+            </div>
+          </div>
+          <p class="itemDescription">{{item.description}}</p>
+          <p class="MoreInfo" ng-repeat="cat in categories">
+              <svg ng-if="cat.name == item.category" class="arrowRight" style="fill: {{cat.color}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path d="M294.1 256L167 129c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.3 34 0L345 239c9.1 9.1 9.3 23.7.7 33.1L201.1 417c-4.7 4.7-10.9 7-17 7s-12.3-2.3-17-7c-9.4-9.4-9.4-24.6 0-33.9l127-127.1z" /></svg>
+                <span ng-if="cat.name == item.category" class="moreText"><a href="#" class="linkMore">More Info</a></span>
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer></footer>
+</body>
+
+</html>
